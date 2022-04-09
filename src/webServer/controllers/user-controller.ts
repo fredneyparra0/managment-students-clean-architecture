@@ -4,43 +4,55 @@ import { UseCaseStudent } from '../../useCases/students';
 import { IStudentController } from './interfaces/user-interface-controller';
 
 export class UserController implements IStudentController {
-    studentUseCase: UseCaseStudent;
-    constructor(studentUseCase: UseCaseStudent) {
-        this.studentUseCase = studentUseCase;
-        console.log(studentUseCase.findAllStudents());
-    }
+    constructor(private studentUseCase: UseCaseStudent) {}
     
     async StudentsFindAll(req: Request, res: Response): Promise<void> {
         try {
-            res.json({ data: this.studentUseCase.findAllStudents() });
+            const responseData:IStudent[] | null = await this.studentUseCase.findAllStudents();
+            res.json({ data:  responseData});
         } catch (err) {
             console.log('ERROR ==> ',err);
-            res.status(300).send(err);
+            res.status(404).send(err);
         }
     }
 
-    studentById(req: Request, res: Response): void {
-        res.send({
-            // data: this.data[0]
-        })
+    async studentById(req: Request, res: Response): Promise<void> {
+        try {
+            const responseData:IStudent | null = await this.studentUseCase.findStudentById(req.params.id);
+            res.json({ data:  responseData});
+        } catch (err) {
+            console.log('ERROR ==> ',err);
+            res.status(404).send(err);
+        }
     }
 
-    studentCreate(req: Request, res: Response): void {
-        res.send({
-            // data: this.data[0]
-        })
+    async studentCreate(req: Request, res: Response): Promise<void> {
+        try {
+            const responseData:IStudent | null = await this.studentUseCase.createStudent(req.body);
+            res.json({ data:  responseData});
+        } catch (err) {
+            console.log('ERROR ==> ',err);
+            res.status(404).send(err);
+        }
     }
 
-    studentUpdate(req: Request, res: Response): void {
-        res.send({
-            // data: this.data[0]
-        })
+    async studentUpdate(req: Request, res: Response): Promise<void> {
+        try {
+            const responseData:IStudent | null = await this.studentUseCase.updateStudent(req.params.id, req.body);
+            res.json({ data:  responseData});
+        } catch (err) {
+            console.log('ERROR ==> ',err);
+            res.status(404).send(err);
+        }
     }
 
-    studentDelete(req: Request, res: Response): void {
-        res.send({
-            // data: this.data[0]
-        })
+    async studentDelete(req: Request, res: Response): Promise<void> {
+        try {
+            const responseData:IStudent | null = await this.studentUseCase.deleteStudent(req.params.id);
+            res.json({ data:  responseData});
+        } catch (err) {
+            console.log('ERROR ==> ',err);
+            res.status(404).send(err);
+        }
     }
-
 }
