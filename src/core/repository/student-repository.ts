@@ -1,9 +1,10 @@
 import { IStudent } from "../interfaces/student-interface";
+import { ObjectId } from 'mongoose';
 
 export interface IRepositoryStudent {
-    StudentsFindAll(): IStudent[];
-    studentById(id: string): IStudent;
-    studentCreate(data: IStudent): IStudent;
-    studentUpdate(idUser: string, dataUpdate: IStudent): IStudent;
-    studentDelete(idUserDelete: string): IStudent;
+    findAllStudents(params?: any): Promise<IStudent[] | null>;
+    findStudentById(id: string | number | ObjectId): Promise<IStudent | null>;
+    createStudent(data: IStudent): Promise<IStudent | null>;
+    updateStudent(idStudent: string | number | ObjectId, data:IStudent): Promise<IStudent | null>;
+    deleteStudent(idUserDelete: string | number | ObjectId): Promise<IStudent | null>;
 }
