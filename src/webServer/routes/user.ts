@@ -1,17 +1,18 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
+import { RepositoryStudentMongoDb } from '../../dataAccess/mongoDb/repositories/student-repository';
 import { UseCaseStudent } from '../../useCases/students';
-
 import { UserController } from '../controllers/user-controller';
+
 export const userRoutes = Router();
 
-const controller = new UserController(new UseCaseStudent());
+const controller: UserController = new UserController(new UseCaseStudent( new RepositoryStudentMongoDb()));
 
-userRoutes.get('', controller.StudentsFindAll);
+userRoutes.get('', (req: Request, res: Response) => (controller.StudentsFindAll(req, res)));
 
-userRoutes.get('/:id', controller.studentById);
+userRoutes.get('/:id', (req: Request, res: Response) => (controller.studentById(req, res)));
 
-userRoutes.post('', controller.studentCreate);
+userRoutes.post('', (req: Request, res: Response) => (controller.studentCreate(req, res)));
 
-userRoutes.put('/:id', controller.studentUpdate);
+userRoutes.put('/:id', (req: Request, res: Response) => (controller.studentUpdate(req, res)));
 
-userRoutes.delete('/:id', controller.studentDelete);
+userRoutes.delete('/:id', (req: Request, res: Response) => (controller.studentDelete(req, res)));
