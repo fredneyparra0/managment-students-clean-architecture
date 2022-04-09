@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { IStudent } from "../../../core/interfaces/student-interface";
 
 export interface IStudentController {
     StudentsFindAll(req: Request, res: Response): void;
