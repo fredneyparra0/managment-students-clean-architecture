@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose'
-import { IStudent } from '../../../core/interfaces/student-interface'
-import { STUDENT_COLLECTION } from '../nameCollections'
+import { ITeacher } from '../../../core/interfaces/teacher-interface'
+import { STUDENT_COLLECTION, TEACHER_COLLECTION } from '../nameCollections'
 
-export class ModelStudentMongoDb {
-  private readonly schemaStudent: Schema<IStudent> = new Schema({
+export class ModelTeacherMongoDb {
+  private readonly schemaTeacher: Schema<ITeacher> = new Schema({
     name: {
       type: String,
       required: true,
@@ -25,10 +25,6 @@ export class ModelStudentMongoDb {
       type: String,
       required: true
     },
-    coursingYear: {
-      type: String,
-      required: true
-    },
     dateOfBrithday: {
       type: Date,
       required: true
@@ -37,11 +33,13 @@ export class ModelStudentMongoDb {
       type: Number,
       required: true
     },
-    sectionOfStudent: {
-      type: String,
-      required: true
-    }
+    students: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: STUDENT_COLLECTION
+      }
+    ]
   })
 
-  modelStudentMongo = model<IStudent>(STUDENT_COLLECTION, this.schemaStudent)
+  modelTeacherMongo = model<ITeacher>(TEACHER_COLLECTION, this.schemaTeacher)
 }

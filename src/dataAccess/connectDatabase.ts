@@ -1,19 +1,20 @@
-import { ConnectionMongoDb } from './mongoDb/connection';
+import { ConnectionMongoDb } from './mongoDb/connection'
 
-
-async function connectDataBase():Promise<void> {
-    try {
-        if(process.env.DATA_DATABASE === 'MONGO') {
-            await ConnectionMongoDb.connection();
-            console.log(`Connected sucessfull to database ${process.env.DATA_DATABASE}`);
-        }
-        else {
-            await ConnectionMongoDb.connection();
-            console.log('connected to database for default: MONGODB');
-        }
-    } catch (err) {
-        console.log(`ERROR TO CONNECT DataBase ${process.env.DATA_BASE}`);
+export async function connectDataBase (): Promise<any> {
+  try {
+    if (process.env.DATA_DATABASE === 'MONGO') {
+      const connect = new ConnectionMongoDb()
+      const resConnect = await connect.connection()
+      console.log('connected to database')
+      return resConnect
     }
+    // } else {
+    //   const connect = new ConnectionMongoDb()
+    //   const resConnect = await connect.connection()
+    //   console.log('connected to database')
+    //   return resConnect
+    // }
+  } catch (err: any) {
+    console.log('Error in connection to Database', err)
+  }
 }
-
-connectDataBase();
